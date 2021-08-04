@@ -1,3 +1,7 @@
+// GopherPEDS gopher png
+// Copyright (C) 2021 Vinz Frauchiger of this file
+// Copyright for image Ypsomed.com!!
+
 // auto-generated
 
 package main
