@@ -49,9 +49,11 @@ func main() {
 	inpEarlPubNum.SetPlaceHolder("Us20080123456A1")
 
 	// images
-	image := canvas2.NewImageFromFile("gopherli.png")
+	//image := canvas2.NewImageFromFile("gopherli.png")
+	image := canvas2.NewImageFromResource(resourceGopherliPng)
 	image.FillMode = canvas2.ImageFillOriginal
-	imageYps := canvas2.NewImageFromFile("Ypsomed_big.png")
+	//imageYps := canvas2.NewImageFromFile("Ypsomed_big.png")
+	imageYps := canvas2.NewImageFromResource(resourceYpsomedbigPng)
 	imageYps.FillMode = canvas2.ImageFillOriginal
 
 	labTitle := widget.NewLabelWithStyle(
