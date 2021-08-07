@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"github.com/cavaliercoder/grab"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -30,6 +31,7 @@ type Document struct {
 }
 
 func GetFileWrapper(applId string) error {
+
 	// cms link
 	url_down := "https://ped.uspto.gov/api/queries/cms/"
 	// base url for file list
@@ -67,7 +69,11 @@ func GetFileWrapper(applId string) error {
 			fmt.Println("THERE IS NO URL FOR THE FILE")
 			continue
 		}
-		resp, err := grab.Get(".", doc_url)
+		dirname, err := os.UserHomeDir()
+		if err != nil {
+			log.Fatal(err)
+		}
+		resp, err := grab.Get(dirname, doc_url)
 		if err != nil {
 			return err
 		}
@@ -75,6 +81,7 @@ func GetFileWrapper(applId string) error {
 		filename := documents[i].ApplId + "_" + documents[i].MRDate + "_" + documents[i].DocDesc + ".pdf"
 		filename = strings.ReplaceAll(filename, "/", "_")
 		filename = strings.ReplaceAll(filename, ":", "_")
+		filename = dirname + "/" + filename
 		os.Rename(resp.Filename, filename)
 
 		fmt.Println("Download saved to", resp.Filename, filename)

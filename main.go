@@ -14,6 +14,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"log"
+	"os"
 	"strings"
 )
 
@@ -38,6 +39,7 @@ func removeChars(rawText string) string {
 var theApplId2 string = ""
 
 func main() {
+
 	a := app.New()
 	w := a.NewWindow("USPTO PEDS Tool Go!")
 	hello := widget.NewLabel("Hello Dude!")
@@ -91,7 +93,22 @@ func main() {
 		hello.SetText(termdays + " days and " + discl)
 	})
 	butWrapApplId := widget.NewButton("Get FileWrapper", func() {
-		hello.SetText(theApplId2)
+		modifiedText := modifyText(inpApplId.Text)
+		modifiedText = removeChars(modifiedText)
+		hello.SetText(modifiedText)
+		_, _, theApplId, err := GetTermDisc("applId", modifiedText)
+		if err != nil {
+			hello.SetText("wrong number format!")
+		} else if theApplId == "number!" {
+			hello.SetText("wrong number!(kind code?)")
+		} else {
+			theApplId2 = theApplId
+			hello.SetText("Getting FileWrapper for " + theApplId2)
+			err = GetFileWrapper(theApplId2)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
 	})
 
 	// Buttons Patents
@@ -202,4 +219,7 @@ func main() {
 	w.SetContent(content)
 	w.Resize(fyne.NewSize(600, 400))
 	w.ShowAndRun()
+	w.SetOnClosed(func() {
+		os.Exit(1)
+	})
 }
