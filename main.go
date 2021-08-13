@@ -43,6 +43,7 @@ func main() {
 	a := app.New()
 	w := a.NewWindow("USPTO PEDS Tool Go!")
 	hello := widget.NewLabel("Hello Dude!")
+	hello.TextStyle = fyne.TextStyle{Bold: true}
 
 	labApplId := widget.NewLabel("Application ID")
 	inpApplId := widget.NewEntry()
