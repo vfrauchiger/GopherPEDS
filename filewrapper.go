@@ -30,7 +30,7 @@ type Document struct {
 	PdfURL    string `json:"pdfUrl"`
 }
 
-func GetFileWrapper(applId string) error {
+func GetFileWrapper(applId string, save_dir string) error {
 
 	// cms link
 	url_down := "https://ped.uspto.gov/api/queries/cms/"
@@ -69,10 +69,16 @@ func GetFileWrapper(applId string) error {
 			fmt.Println("THERE IS NO URL FOR THE FILE")
 			continue
 		}
-		dirname, err := os.UserHomeDir()
-		if err != nil {
-			log.Fatal(err)
+		dirname := "./"
+		if save_dir == "$HOME" {
+			dirname, err = os.UserHomeDir()
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			dirname = save_dir
 		}
+
 		resp, err := grab.Get(dirname, doc_url)
 		if err != nil {
 			return err

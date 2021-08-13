@@ -12,6 +12,7 @@ import (
 	"fyne.io/fyne/v2/app"
 	canvas2 "fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	"log"
 	"os"
@@ -36,6 +37,23 @@ func removeChars(rawText string) string {
 	return rawText
 }
 
+func chooseDirectory(w fyne.Window, h *widget.Label) {
+	dialog.ShowFolderOpen(func(dir fyne.ListableURI, err error) {
+		save_dir = "$HOME"
+		if err != nil {
+			dialog.ShowError(err, w)
+			return
+		}
+		if dir != nil {
+			fmt.Println(dir.Path())
+			save_dir = dir.Path() // here value of save_dir shall be updated!
+		}
+		fmt.Println(save_dir)
+		h.SetText(save_dir)
+	}, w)
+}
+
+var save_dir string = "$HOME"
 var theApplId2 string = ""
 
 func main() {
@@ -105,7 +123,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2)
+			err = GetFileWrapper(theApplId2, save_dir)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -139,7 +157,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2)
+			err = GetFileWrapper(theApplId2, save_dir)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -175,11 +193,17 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2)
+			err = GetFileWrapper(theApplId2, save_dir)
 			if err != nil {
 				fmt.Println(err)
 			}
 		}
+	})
+
+	//button for directory to save to
+	labSavDir := widget.NewLabel("$HOME")
+	butSaveDir := widget.NewButton("Get Save Directory!", func() {
+		chooseDirectory(w, labSavDir) // Text of hello updated by return value
 	})
 
 	// CONTENT
@@ -216,6 +240,11 @@ func main() {
 			butEarlPubNumTerm,
 			butEarlPubNumWrap,
 		),
+		widget.NewSeparator(),
+		widget.NewLabel("Directory to which the files are saved: "),
+		labSavDir,
+		butSaveDir,
+		widget.NewSeparator(),
 		widget.NewButton("Quit", w.Close))
 	w.SetContent(content)
 	w.Resize(fyne.NewSize(600, 400))
