@@ -16,7 +16,10 @@ Wrapper will be downloaded as separate file in the following format:
 
             ApplIdFiling_Date&Time_TypeOfDocument.pdf
 
-The files are saved to the location from where you started the application.
+But before you go on ```Get Filewrapper ...``` you may want to set the directory where your files 
+should be directed to! This is done by clicking ```Get Save Directory```, choose the appropriate
+directory and click on ```Open```, the selected directory is then shown above the ```Get Save Directory```-Button
+instead of "$HOME". In case you don't select a target directory, all downloaded files will be saved to your home directory.
 
 To build the application:
 
