@@ -3,6 +3,8 @@
 # GopherPEDS
 ## A GUI Tool for USPTO PEDS 
 
+(c) Vinz Frauchiger, 2021
+
 GopherPEDS is a tool to access the PEDS System of the US Patent and Trademark Office. 
 
 It currently allows for catching the term extension days for an application id, 
@@ -44,6 +46,8 @@ This app has no intention to have any commercial aspect! Use it or change it.
 ![alt text](./gopherli.png)  ![alt text](./fyne.png)
 
 ... and may your appropriate God bless the **Cheese Makers**!
+
+August 15, 2021, Vinz Frauchiger
 
 
 
