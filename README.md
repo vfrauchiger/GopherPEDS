@@ -1,7 +1,8 @@
 ![alt text](./VinzF.png)
 
 # GopherPEDS
-## A GUI Tool for USPTO PEDS 
+
+## A GUI Tool for USPTO PEDS
 
 (c) Vinz Frauchiger, 2021
 
