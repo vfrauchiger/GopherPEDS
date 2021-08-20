@@ -20,6 +20,8 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+var ReleaseVersion string = "0.9.0"
+
 func modifyText(rawText string) string {
 	if strings.ToUpper(rawText[:2]) == "US" {
 		rawText = rawText[2:]
@@ -233,6 +235,11 @@ func main() {
 			container.NewVBox(
 				labTitle,
 				imageYps,
+				widget.NewLabelWithStyle(
+					"Version: "+ReleaseVersion,
+					fyne.TextAlignCenter,
+					fyne.TextStyle{Italic: true},
+				),
 				labCopyRight,
 				labExclPatents,
 			),
