@@ -54,4 +54,4 @@ This app has no intention to have any commercial aspect! Use it or change it.
 
 **While this software is released under MIT license, further licenses apply due the use of Go and Go Libraries!**
 
-August 15, 2021, Vinz Frauchiger
+August 20, 2021, Vinz Frauchiger
