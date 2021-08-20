@@ -171,6 +171,13 @@ func main() {
 		}
 	})
 
+	butPatLatClaims := widget.NewButton("Get Latest Claims", func() {
+		modifiedText := modifyText(inpPatentNum.Text)
+		modifiedText = removeChars(modifiedText)
+		hello.SetText(modifiedText)
+		discNumber(modifiedText, "patentNumber", save_dir)
+	})
+
 	// Buttons Early Publication
 	butEarlPubNumTerm := widget.NewButton("Go Publ Num", func() {
 		modifiedText := removeChars(inpEarlPubNum.Text)
@@ -207,6 +214,12 @@ func main() {
 		}
 	})
 
+	butEarlPubLatClaims := widget.NewButton("Get Latest Claims", func() {
+		modifiedText := removeChars(inpEarlPubNum.Text)
+		hello.SetText(modifiedText)
+		discNumber(modifiedText, "appEarlyPubNumber", save_dir)
+	})
+
 	//button for directory to save to
 	labSavDir := widget.NewLabel("$HOME")
 	butSaveDir := widget.NewButton("Get Save Directory!", func() {
@@ -241,12 +254,14 @@ func main() {
 		container.NewHBox(
 			butPatNumTerm,
 			butPatNumWrap,
+			butPatLatClaims,
 		),
 		labEarlPubNum,
 		inpEarlPubNum,
 		container.NewHBox(
 			butEarlPubNumTerm,
 			butEarlPubNumWrap,
+			butEarlPubLatClaims,
 		),
 		widget.NewSeparator(),
 		widget.NewLabel("Directory to which the files are saved: "),

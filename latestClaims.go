@@ -53,7 +53,7 @@ func get_ApplId(publNo, queryKind string) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-
+	fmt.Println(res)
 	applId := res.QueryResults.SearchResponse.Response.Docs[0].ApplID
 	fmt.Println(applId)
 	return applId
