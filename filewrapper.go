@@ -9,25 +9,26 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/cavaliercoder/grab"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/cavaliercoder/grab"
 )
 
 type Document struct {
-	ApplId    string `json:"applicationNumberText"`
-	MRDate    string `json:"mailRoomDate"`
-	DocCode   string `json:"documentCode"`
-	DocDesc   string `json:"documentDescription"`
-	DocCate   string `json:"documentCategory"`
-	AccessLev string `json:"accessLevelCategory"`
-	DocIdent  string `json:"documentIdentifier"`
-	PagCount  int    `json:"pageCount"`
-	PdfURL    string `json:"pdfUrl"`
+	ApplId    string    `json:"applicationNumberText"`
+	MRDate    time.Time `json:"mailRoomDate"`
+	DocCode   string    `json:"documentCode"`
+	DocDesc   string    `json:"documentDescription"`
+	DocCate   string    `json:"documentCategory"`
+	AccessLev string    `json:"accessLevelCategory"`
+	DocIdent  string    `json:"documentIdentifier"`
+	PagCount  int       `json:"pageCount"`
+	PdfURL    string    `json:"pdfUrl"`
 }
 
 func GetFileWrapper(applId string, save_dir string) error {
@@ -59,9 +60,7 @@ func GetFileWrapper(applId string, save_dir string) error {
 	for i := 0; i < len(documents); i++ {
 		fmt.Println("Application Id: " + documents[i].ApplId)
 		fmt.Println("Document Type: " + documents[i].DocCate)
-		fmt.Println("Mail Room Date: " + documents[i].MRDate)
-		t, _ := time.Parse("01-02-2006", documents[i].MRDate)
-		fmt.Println(t)
+		fmt.Println("Mail Room Date: " + documents[i].MRDate.Format("20060101"))
 		fmt.Println("Document Identifier: " + documents[i].DocIdent)
 		fmt.Println("pdfUrl: " + documents[i].PdfURL)
 		doc_url := url_down + documents[i].PdfURL
@@ -84,7 +83,7 @@ func GetFileWrapper(applId string, save_dir string) error {
 			return err
 		}
 		// define, refine, and rename the file name of the downloaded files, less cryptic
-		filename := documents[i].ApplId + "_" + documents[i].MRDate + "_" + documents[i].DocDesc + ".pdf"
+		filename := documents[i].ApplId + "_" + documents[i].MRDate.Format("20060101") + "_" + documents[i].DocDesc + ".pdf"
 		filename = strings.ReplaceAll(filename, "/", "_")
 		filename = strings.ReplaceAll(filename, ":", "_")
 		filename = dirname + "/" + filename

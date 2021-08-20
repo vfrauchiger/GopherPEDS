@@ -8,15 +8,16 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"strings"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	canvas2 "fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
-	"log"
-	"os"
-	"strings"
 )
 
 func modifyText(rawText string) string {
@@ -98,7 +99,7 @@ func main() {
 		fyne.TextAlignCenter,
 		fyne.TextStyle{Italic: true},
 	)
-
+	// Button Application ID
 	butTermApplID := widget.NewButton("Go Appl Id", func() {
 		modifiedText := modifyText(inpApplId.Text)
 		modifiedText = removeChars(modifiedText)
@@ -128,6 +129,12 @@ func main() {
 				fmt.Println(err)
 			}
 		}
+	})
+	butApplLatClaims := widget.NewButton("Get Latest Claims", func() {
+		modifiedText := modifyText(inpApplId.Text)
+		modifiedText = removeChars(modifiedText)
+		hello.SetText(modifiedText)
+		discNumber(modifiedText, "applId", save_dir)
 	})
 
 	// Buttons Patents
@@ -227,6 +234,7 @@ func main() {
 		container.NewHBox(
 			butTermApplID,
 			butWrapApplId,
+			butApplLatClaims,
 		),
 		labPatentNum,
 		inpPatentNum,
