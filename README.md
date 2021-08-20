@@ -41,8 +41,8 @@ _Steps_:
 
 1. Clone the repo to your preferred location
 2. change into the GopherPEDS directory
-3. "go build" the application (may be omitted as Fyne does it as well)
-4. "fyne package -icon icon.png" to package the application (tested on MacOS Big Sur and Win 10 (20H2))
+3. ```go build``` the application (may be omitted as Fyne does it as well)
+4. ```fyne package -icon icon.png -name GopherPEDS -appVersion x.x.x -os yourOS``` to package the application (tested on MacOS Big Sur and Win 10 (20H2))
 
 This app has no intention to have any commercial aspect! Use it or change it.
 
