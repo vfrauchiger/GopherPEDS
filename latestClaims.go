@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"fyne.io/fyne/v2/widget"
 	"github.com/cavaliercoder/grab"
 )
 
@@ -59,8 +60,9 @@ func get_ApplId(publNo, queryKind string) string {
 	return applId
 }
 
-func getLatestClaims(applIdExt, savePath string) {
+func getLatestClaims(applIdExt, savePath string, proBar *widget.ProgressBar) {
 	applId := applIdExt
+	proBar.SetValue(0.2)
 	url_list_files := "https://ped.uspto.gov/api/queries/cms/public/"
 	comb_url_list := url_list_files + applId
 
@@ -69,7 +71,7 @@ func getLatestClaims(applIdExt, savePath string) {
 		log.Fatal(err)
 	}
 	defer res.Body.Close()
-
+	proBar.SetValue(0.4)
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		log.Fatal(err)
@@ -100,6 +102,7 @@ func getLatestClaims(applIdExt, savePath string) {
 	fmt.Println(maxDate)
 	fmt.Println(maxI)
 	fmt.Println(documents[maxI])
+	proBar.SetValue(0.6)
 	claims_url := "https://ped.uspto.gov/api/queries/cms/" + documents[maxI].PdfURL
 	if savePath == "$HOME" {
 		savePath, err = os.UserHomeDir()
@@ -112,17 +115,19 @@ func getLatestClaims(applIdExt, savePath string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	proBar.SetValue(0.8)
 	filename := savePath + "/" + documents[maxI].ApplId + "_" + documents[maxI].MRDate.Format("20060101") + "_latest_claims.pdf"
 	fmt.Println(filename)
 	os.Rename(resp.Filename, filename)
-
+	proBar.SetValue(1.0)
 }
 
-func discNumber(docNo, queryKind, savePath string) {
+func discNumber(docNo, queryKind, savePath string, proBar *widget.ProgressBar) {
+	proBar.SetValue(0)
 	if queryKind == "applId" {
-		getLatestClaims(docNo, savePath)
+		getLatestClaims(docNo, savePath, proBar)
 	} else {
 		applId := get_ApplId(docNo, queryKind)
-		getLatestClaims(applId, savePath)
+		getLatestClaims(applId, savePath, proBar)
 	}
 }

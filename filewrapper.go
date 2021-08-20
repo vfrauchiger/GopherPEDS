@@ -17,6 +17,7 @@ import (
 	"strings"
 	"time"
 
+	"fyne.io/fyne/v2/widget"
 	"github.com/cavaliercoder/grab"
 )
 
@@ -32,7 +33,7 @@ type Document struct {
 	PdfURL    string    `json:"pdfUrl"`
 }
 
-func GetFileWrapper(applId string, save_dir string) error {
+func GetFileWrapper(applId string, save_dir string, proBar *widget.ProgressBar) error {
 
 	// cms link
 	url_down := "https://ped.uspto.gov/api/queries/cms/"
@@ -91,6 +92,12 @@ func GetFileWrapper(applId string, save_dir string) error {
 		os.Rename(resp.Filename, filename)
 
 		fmt.Println("Download saved to", resp.Filename, filename)
+
+		fmt.Println(float64(float64(i) / float64(len(documents))))
+		proBar.SetValue(float64(float64(i) / float64(len(documents))))
+		if i+1 == len(documents) {
+			proBar.SetValue(1.0)
+		}
 	}
 
 	return nil

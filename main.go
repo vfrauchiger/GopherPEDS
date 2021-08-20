@@ -20,7 +20,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var ReleaseVersion string = "0.9.0"
+var ReleaseVersion string = "0.10.0"
 
 func modifyText(rawText string) string {
 	if strings.ToUpper(rawText[:2]) == "US" {
@@ -65,6 +65,8 @@ func main() {
 	w := a.NewWindow("USPTO PEDS Tool Go!")
 	hello := widget.NewLabel("Hello Dude!")
 	hello.TextStyle = fyne.TextStyle{Bold: true}
+	progress := widget.NewProgressBar()
+	progress.SetValue(0)
 
 	labApplId := widget.NewLabel("Application ID")
 	inpApplId := widget.NewEntry()
@@ -126,7 +128,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2, save_dir)
+			err = GetFileWrapper(theApplId2, save_dir, progress)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -136,7 +138,7 @@ func main() {
 		modifiedText := modifyText(inpApplId.Text)
 		modifiedText = removeChars(modifiedText)
 		hello.SetText(modifiedText)
-		discNumber(modifiedText, "applId", save_dir)
+		discNumber(modifiedText, "applId", save_dir, progress)
 	})
 
 	// Buttons Patents
@@ -166,7 +168,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2, save_dir)
+			err = GetFileWrapper(theApplId2, save_dir, progress)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -177,7 +179,7 @@ func main() {
 		modifiedText := modifyText(inpPatentNum.Text)
 		modifiedText = removeChars(modifiedText)
 		hello.SetText(modifiedText)
-		discNumber(modifiedText, "patentNumber", save_dir)
+		discNumber(modifiedText, "patentNumber", save_dir, progress)
 	})
 
 	// Buttons Early Publication
@@ -209,7 +211,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2, save_dir)
+			err = GetFileWrapper(theApplId2, save_dir, progress)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -219,7 +221,7 @@ func main() {
 	butEarlPubLatClaims := widget.NewButton("Get Latest Claims", func() {
 		modifiedText := removeChars(inpEarlPubNum.Text)
 		hello.SetText(modifiedText)
-		discNumber(modifiedText, "appEarlyPubNumber", save_dir)
+		discNumber(modifiedText, "appEarlyPubNumber", save_dir, progress)
 	})
 
 	//button for directory to save to
@@ -274,10 +276,11 @@ func main() {
 		widget.NewLabel("Directory to which the files are saved: "),
 		labSavDir,
 		butSaveDir,
+		progress,
 		widget.NewSeparator(),
 		widget.NewButton("Quit", w.Close))
 	w.SetContent(content)
-	w.Resize(fyne.NewSize(600, 400))
+	w.Resize(fyne.NewSize(650, 400))
 	w.ShowAndRun()
 	w.SetOnClosed(func() {
 		os.Exit(1)

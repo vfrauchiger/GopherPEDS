@@ -27,6 +27,9 @@ instead of "$HOME". In case you don't select a target directory, all downloaded 
 The third function allows for just downloading the "latest" claims, which means the youngest pdf file of the File Wrapper with
 the description "CLAIMS". Befor clicking on ```Get Latest Claims``` you may really want to set a target directory! (ref. above).
 
+There is a progress bar located at the bottom of the main window which show the progress of download operations (not used if only
+term is requested).
+
 To build the application:
 
 _Prerequisites_:
