@@ -3,7 +3,7 @@
 //
 // This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 // License as published by the Free Software Foundation, either version 3 of the License, or any later version.
-// v0.9.0
+// v0.10.1
 
 package main
 
@@ -85,7 +85,10 @@ func GetFileWrapper(applId string, save_dir string, proBar *widget.ProgressBar) 
 			return err
 		}
 		// define, refine, and rename the file name of the downloaded files, less cryptic
-		filename := documents[i].ApplId + "_" + documents[i].MRDate.Format("20060101") + "_" + documents[i].DocDesc + ".pdf"
+		filename := documents[i].ApplId + "_" +
+			documents[i].MRDate.Format("20060101") + "_" +
+			documents[i].DocIdent + "_" +
+			documents[i].DocDesc + ".pdf"
 		filename = strings.ReplaceAll(filename, "/", "_")
 		filename = strings.ReplaceAll(filename, ":", "_")
 		filename = dirname + "/" + filename

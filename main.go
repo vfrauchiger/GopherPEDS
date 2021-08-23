@@ -3,6 +3,7 @@
 //
 // This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 // License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+// v0.10.1 Bugfix file naming
 
 package main
 
@@ -20,7 +21,8 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var ReleaseVersion string = "0.10.0"
+// Versioning!
+var ReleaseVersion string = "0.10.1"
 
 func modifyText(rawText string) string {
 	if strings.ToUpper(rawText[:2]) == "US" {
