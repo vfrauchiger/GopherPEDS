@@ -149,7 +149,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2, save_dir, progress)
+			err = GetFileWrapperMulti(theApplId2, save_dir, progress)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -189,7 +189,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2, save_dir, progress)
+			err = GetFileWrapperMulti(theApplId2, save_dir, progress)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -234,9 +234,9 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapper(theApplId2, save_dir, progress)
+			err = GetFileWrapperMulti(theApplId2, save_dir, progress)
 			if err != nil {
-				fmt.Println(err)
+				hello.SetText(err.Error())
 			}
 		}
 	})
