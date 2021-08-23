@@ -29,7 +29,7 @@ type Document struct {
 func GetFileWrapperMulti(applId string, save_dir string, proBar *widget.ProgressBar, turbo bool) error {
 	//set the download speed
 	var speed int
-	if turbo == true {
+	if turbo {
 		speed = 0 //very fast
 	} else {
 		speed = 3 //rather slow
