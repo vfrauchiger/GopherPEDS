@@ -25,7 +25,10 @@ directory and click on ```Open```, the selected directory is then shown above th
 instead of "$HOME". In case you don't select a target directory, all downloaded files will be saved to your home directory.
 
 The third function allows for just downloading the "latest" claims, which means the youngest pdf file of the File Wrapper with
-the description "CLAIMS". Befor clicking on ```Get Latest Claims``` you may really want to set a target directory! (ref. above).
+the description "CLAIMS". Before clicking on ```Get Latest Claims``` you may really want to set a target directory! (ref. above).
+
+Ther is a check box ```Turbo``` near the bottom, check this box to get insane download speed! By default the program used three simultaneous
+downloads, by checking the box each file is a download routine (parallel).
 
 There is a progress bar located at the bottom of the main window which show the progress of download operations (not used if only
 term is requested).
