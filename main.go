@@ -3,7 +3,7 @@
 //
 // This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 // License as published by the Free Software Foundation, either version 3 of the License, or any later version.
-// v0.10.1 Bugfix file naming
+// v0.11.0 Treat early publication numbers and patent numbers
 
 package main
 
@@ -22,24 +22,43 @@ import (
 )
 
 // Versioning!
-var ReleaseVersion string = "0.10.1"
+var ReleaseVersion string = "0.11.0"
 
 func modifyText(rawText string) string {
+	// Function removes Country Code and Kind Code from Patent Number
 	if strings.ToUpper(rawText[:2]) == "US" {
 		rawText = rawText[2:]
 	}
 	l := len(rawText)
 	if strings.ToUpper(string(rawText[l-2])) == "A" || strings.ToUpper(string(rawText[l-2])) == "B" {
 		rawText = rawText[:l-2]
+	} else if strings.ToUpper(string(rawText[l-1])) == "A" {
+		rawText = rawText[:l-1]
 	}
 	return rawText
 }
 
 func removeChars(rawText string) string {
+	// Function removes unwanted chars from a string
 	rawText = strings.ReplaceAll(rawText, "/", "")
 	rawText = strings.ReplaceAll(rawText, "-", "")
 	rawText = strings.ReplaceAll(rawText, " ", "")
 	return rawText
+}
+
+func treatEarlAppNumb(pubnum string) string {
+	// this function checks for the correct length and
+	// the correct kind code
+	l := len(pubnum)
+	if l == 14 {
+		pubnum = pubnum[:6] + "0" + pubnum[6:]
+	}
+	if pubnum[l-2:] == "AA" {
+		pubnum = pubnum[:l-2] + "A1"
+	} else if pubnum[l-2:] == "AB" {
+		pubnum = pubnum[:l-2] + "A2"
+	}
+	return pubnum
 }
 
 func chooseDirectory(w fyne.Window, h *widget.Label) {
@@ -188,6 +207,7 @@ func main() {
 	butEarlPubNumTerm := widget.NewButton("Go Publ Num", func() {
 		modifiedText := removeChars(inpEarlPubNum.Text)
 		modifiedText = strings.ToUpper(modifiedText)
+		modifiedText = treatEarlAppNumb(modifiedText)
 		hello.SetText(modifiedText)
 		termdays, discl, theApplId, err := GetTermDisc("appEarlyPubNumber", modifiedText)
 		if err != nil {
@@ -204,6 +224,7 @@ func main() {
 	butEarlPubNumWrap := widget.NewButton("Get FileWrapper Publ", func() {
 		modifiedText := removeChars(inpEarlPubNum.Text)
 		modifiedText = strings.ToUpper(modifiedText)
+		modifiedText = treatEarlAppNumb(modifiedText)
 		hello.SetText(modifiedText)
 		_, _, theApplId, err := GetTermDisc("appEarlyPubNumber", modifiedText)
 		if err != nil {
@@ -222,6 +243,8 @@ func main() {
 
 	butEarlPubLatClaims := widget.NewButton("Get Latest Claims", func() {
 		modifiedText := removeChars(inpEarlPubNum.Text)
+		modifiedText = strings.ToUpper(modifiedText)
+		modifiedText = treatEarlAppNumb(modifiedText)
 		hello.SetText(modifiedText)
 		discNumber(modifiedText, "appEarlyPubNumber", save_dir, progress)
 	})
