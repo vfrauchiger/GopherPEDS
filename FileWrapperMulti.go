@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -25,7 +26,14 @@ type Document struct {
 	PdfURL    string    `json:"pdfUrl"`
 }
 
-func GetFileWrapperMulti(applId string, save_dir string, proBar *widget.ProgressBar) error {
+func GetFileWrapperMulti(applId string, save_dir string, proBar *widget.ProgressBar, turbo bool) error {
+	//set the download speed
+	var speed int
+	if turbo == true {
+		speed = 0 //very fast
+	} else {
+		speed = 3 //rather slow
+	}
 
 	url_list_files := "https://ped.uspto.gov/api/queries/cms/public/"
 	comb_url_list := url_list_files + applId
@@ -67,13 +75,21 @@ func GetFileWrapperMulti(applId string, save_dir string, proBar *widget.Progress
 	}
 	fmt.Println(len(urls))
 	// define the location to save the files to
-	savePath := save_dir
+	var savePath string
+	if save_dir == "$HOME" {
+		savePath, err = os.UserHomeDir()
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		savePath = save_dir
+	}
 
 	/*
 		The following routine starts the batch download
 	*/
 	// 0 for the batch size means everythin in parallel!
-	respch, err := grab.GetBatch(0, savePath, urls...) //respch is a channel!
+	respch, err := grab.GetBatch(speed, savePath, urls...) //respch is a channel!
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)

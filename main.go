@@ -3,7 +3,7 @@
 //
 // This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 // License as published by the Free Software Foundation, either version 3 of the License, or any later version.
-// v0.11.0 Treat early publication numbers and patent numbers
+// v0.12.0 Burn Baby Burn!
 
 package main
 
@@ -22,7 +22,7 @@ import (
 )
 
 // Versioning!
-var ReleaseVersion string = "0.11.0"
+var ReleaseVersion string = "0.12.0 Burn!"
 
 func modifyText(rawText string) string {
 	// Function removes Country Code and Kind Code from Patent Number
@@ -101,6 +101,12 @@ func main() {
 	inpEarlPubNum := widget.NewEntry()
 	inpEarlPubNum.SetPlaceHolder("Us20080123456A1")
 
+	// Check "Turbo Mode"
+
+	checkTurbo := widget.NewCheck("Turbo", func(value bool) {
+		fmt.Println(value)
+	})
+
 	// images
 	//image := canvas2.NewImageFromFile("gopherli.png")
 	image := canvas2.NewImageFromResource(resourceGopherliPng)
@@ -141,6 +147,7 @@ func main() {
 		modifiedText := modifyText(inpApplId.Text)
 		modifiedText = removeChars(modifiedText)
 		hello.SetText(modifiedText)
+		fmt.Println(checkTurbo.Checked)
 		_, _, theApplId, err := GetTermDisc("applId", modifiedText)
 		if err != nil {
 			hello.SetText("wrong number format!")
@@ -149,7 +156,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapperMulti(theApplId2, save_dir, progress)
+			err = GetFileWrapperMulti(theApplId2, save_dir, progress, checkTurbo.Checked)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -189,7 +196,7 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapperMulti(theApplId2, save_dir, progress)
+			err = GetFileWrapperMulti(theApplId2, save_dir, progress, checkTurbo.Checked)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -234,7 +241,8 @@ func main() {
 		} else {
 			theApplId2 = theApplId
 			hello.SetText("Getting FileWrapper for " + theApplId2)
-			err = GetFileWrapperMulti(theApplId2, save_dir, progress)
+
+			err = GetFileWrapperMulti(theApplId2, save_dir, progress, checkTurbo.Checked)
 			if err != nil {
 				hello.SetText(err.Error())
 			}
@@ -249,6 +257,7 @@ func main() {
 		discNumber(modifiedText, "appEarlyPubNumber", save_dir, progress)
 	})
 
+	fmt.Println(checkTurbo.Checked)
 	//button for directory to save to
 	labSavDir := widget.NewLabel("$HOME")
 	butSaveDir := widget.NewButton("Get Save Directory!", func() {
@@ -298,7 +307,11 @@ func main() {
 			butEarlPubLatClaims,
 		),
 		widget.NewSeparator(),
-		widget.NewLabel("Directory to which the files are saved: "),
+		container.NewHBox(
+			widget.NewLabel("Directory to which the files are saved: "),
+			widget.NewSeparator(),
+			checkTurbo,
+		),
 		labSavDir,
 		butSaveDir,
 		progress,
