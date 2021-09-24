@@ -77,8 +77,22 @@ func chooseDirectory(w fyne.Window, h *widget.Label) {
 	}, w)
 }
 
+func chooseFile(w fyne.Window, fname *widget.Label) {
+
+	dialog.ShowFileOpen(func(file fyne.URIReadCloser, err error) {
+		fileP := file.URI().Path()
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(fileP)
+		fname.SetText(fileP)
+	}, w)
+
+}
+
 var save_dir string = "$HOME"
 var theApplId2 string = ""
+var listProcFile string = "nofile"
 
 func main() {
 
@@ -264,6 +278,14 @@ func main() {
 		chooseDirectory(w, labSavDir) // Text of hello updated by return value
 	})
 
+	// Button List processor
+	labListProc := widget.NewLabel("no file chosen")
+	butListProc := widget.NewButton("List Processor", func() {
+		fname := listProcFile
+		fmt.Printf("actual path: %s\n", fname)
+		chooseFile(w, labListProc)
+	})
+
 	// CONTENT
 	content := container.NewVBox(
 		container.NewHBox(
@@ -305,6 +327,13 @@ func main() {
 			butEarlPubNumTerm,
 			butEarlPubNumWrap,
 			butEarlPubLatClaims,
+		),
+		widget.NewSeparator(),
+		container.NewHBox(
+			widget.NewLabel("File List Proc."),
+			labListProc,
+			widget.NewSeparator(),
+			butListProc,
 		),
 		widget.NewSeparator(),
 		container.NewHBox(
