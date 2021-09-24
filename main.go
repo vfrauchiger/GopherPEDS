@@ -3,7 +3,7 @@
 //
 // This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 // License as published by the Free Software Foundation, either version 3 of the License, or any later version.
-// v0.12.0 Burn Baby Burn!
+// v0.13.0 List Processor!
 
 package main
 
@@ -22,7 +22,7 @@ import (
 )
 
 // Versioning!
-var ReleaseVersion string = "0.12.0 Burn!"
+var ReleaseVersion string = "0.13.0 Process!"
 
 func modifyText(rawText string) string {
 	// Function removes Country Code and Kind Code from Patent Number
@@ -78,21 +78,25 @@ func chooseDirectory(w fyne.Window, h *widget.Label) {
 }
 
 func chooseFile(w fyne.Window, fname *widget.Label) {
-
 	dialog.ShowFileOpen(func(file fyne.URIReadCloser, err error) {
+
 		fileP := file.URI().Path()
 		if err != nil {
 			fmt.Println(err)
 		}
 		fmt.Println(fileP)
 		fname.SetText(fileP)
+		file.Close()
 	}, w)
-
 }
 
+//Variables
 var save_dir string = "$HOME"
 var theApplId2 string = ""
-var listProcFile string = "nofile"
+
+//
+// MAIN
+//
 
 func main() {
 
@@ -278,12 +282,17 @@ func main() {
 		chooseDirectory(w, labSavDir) // Text of hello updated by return value
 	})
 
-	// Button List processor
+	//
+	// List processor
 	labListProc := widget.NewLabel("no file chosen")
-	butListProc := widget.NewButton("List Processor", func() {
-		fname := listProcFile
-		fmt.Printf("actual path: %s\n", fname)
+	butListProc := widget.NewButton("Get File", func() {
 		chooseFile(w, labListProc)
+	})
+	butGoList := widget.NewButton("Go List Proc.", func() {
+		var publicationList []string
+		publicationList = LoadExcel(labListProc.Text)
+		fmt.Println(publicationList)
+
 	})
 
 	// CONTENT
@@ -334,6 +343,7 @@ func main() {
 			labListProc,
 			widget.NewSeparator(),
 			butListProc,
+			butGoList,
 		),
 		widget.NewSeparator(),
 		container.NewHBox(
