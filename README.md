@@ -58,6 +58,6 @@ This app has no intention to have any commercial aspect! Use it or change it.
 
 ... and may your appropriate God bless the **Cheese Makers**!
 
-**While this software is released under MIT license, further licenses apply due the use of Go and Go Libraries!**
+**While this software is released under MIT license, further licenses apply due the use of Go and Go Libraries! The Ypsomed Logo is exclusively owned by Ypsomed AG.**
 
 August 23, 2021, Vinz Frauchiger
