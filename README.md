@@ -1,4 +1,4 @@
-![alt text](./VinzF.png)
+![VinzF](./VinzF.png)
 
 # GopherPEDS
 
@@ -54,7 +54,7 @@ This app has no intention to have any commercial aspect! Use it or change it.
 
 *Credits to all GO developers! Credits to the Fyne Team!*
 
-![alt text](./gopherli.png)  ![alt text](./fyne.png)
+![Gopher](./gopherli.png)  ![Fyne](./fyne.png)
 
 ... and may your appropriate God bless the **Cheese Makers**!
 
