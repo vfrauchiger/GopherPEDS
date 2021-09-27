@@ -18,6 +18,7 @@ import (
 	canvas2 "fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -289,10 +290,10 @@ func main() {
 		chooseFile(w, labListProc)
 	})
 	butGoList := widget.NewButton("Go List Proc.", func() {
-		var publicationList []string
-		publicationList = LoadExcel(labListProc.Text)
+		publicationList := LoadExcel(labListProc.Text)
 		fmt.Println(publicationList)
-
+		resulting_file := ManageList(publicationList)
+		fmt.Println(resulting_file)
 	})
 
 	// CONTENT
@@ -301,14 +302,14 @@ func main() {
 			image,
 			container.NewVBox(
 				labTitle,
+				labCopyRight,
+				labExclPatents,
 				imageYps,
 				widget.NewLabelWithStyle(
 					"Version: "+ReleaseVersion,
 					fyne.TextAlignCenter,
 					fyne.TextStyle{Italic: true},
 				),
-				labCopyRight,
-				labExclPatents,
 			),
 		),
 		widget.NewSeparator(),
@@ -348,6 +349,8 @@ func main() {
 		widget.NewSeparator(),
 		container.NewHBox(
 			widget.NewLabel("Directory to which the files are saved: "),
+			widget.NewSeparator(),
+			layout.NewSpacer(),
 			widget.NewSeparator(),
 			checkTurbo,
 		),
