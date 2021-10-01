@@ -15,7 +15,11 @@ func LoadExcel(filename string) []string {
 		fmt.Println(err)
 		return nil
 	}
-	cols, err := f.GetCols("Tabelle1")
+	// get name of first worksheet
+	table := f.GetSheetName(0)
+
+	//read all cols
+	cols, err := f.GetCols(table)
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -29,5 +33,6 @@ func LoadExcel(filename string) []string {
 		}
 
 	}
+
 	return publnos
 }
