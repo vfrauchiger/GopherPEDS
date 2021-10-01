@@ -361,7 +361,7 @@ func main() {
 		widget.NewSeparator(),
 		widget.NewButton("Quit", w.Close))
 	w.SetContent(content)
-	w.Resize(fyne.NewSize(650, 400))
+	w.Resize(fyne.NewSize(800, 800))
 	w.ShowAndRun()
 	w.SetOnClosed(func() {
 		os.Exit(1)
