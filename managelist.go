@@ -30,10 +30,35 @@ func ManageList(publnolist []string) string {
 		}
 	}
 	fmt.Println(pbmap)
-
+	var noTermDiscAppl [][]string
+	noTermDiscAppl = append(noTermDiscAppl, []string{"publno", "term extension", "disclaimer", "appl ID"})
 	for key, value := range pbmap {
+		s := make([]string, 4)
 		fmt.Println("publno: " + key)
 		fmt.Println("Kind: " + value)
+		termdays, discl, theapplId, err := GetTermDisc(value, key)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			s[0] = key
+			if termdays == "0" || termdays == "" {
+				s[1] = "no extension"
+			} else {
+				s[1] = termdays
+			}
+			if discl == "" {
+				s[2] = "no disclaimer"
+			} else {
+				s[2] = discl
+			}
+			s[3] = theapplId
+			noTermDiscAppl = append(noTermDiscAppl, s)
+			fmt.Println(s)
+		}
 	}
+	for _, slice := range noTermDiscAppl {
+		fmt.Println(slice)
+	}
+	//fmt.Println(noTermDiscAppl)
 	return filename
 }

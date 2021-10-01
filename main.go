@@ -339,6 +339,7 @@ func main() {
 			butEarlPubLatClaims,
 		),
 		widget.NewSeparator(),
+		widget.NewLabel("Please not that the list processor takes (early & patent) publication numbers only!"),
 		container.NewHBox(
 			widget.NewLabel("File List Proc."),
 			labListProc,
