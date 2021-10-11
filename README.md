@@ -1,4 +1,4 @@
-![VinzF](./VinzF.png)
+![VinzF](https://github.com/vfrauchiger/GopherPEDS/blob/master/fyne.png)
 
 # GopherPEDS
 
