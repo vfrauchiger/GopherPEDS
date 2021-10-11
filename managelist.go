@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func ManageList(publnolist []string) string {
+func ManageList(publnolist []string, file string) string {
 	filename := "noname"
 	pbmap := make(map[string]string)
 	for _, pblno := range publnolist {
@@ -31,7 +31,7 @@ func ManageList(publnolist []string) string {
 	}
 	fmt.Println(pbmap)
 	var noTermDiscAppl [][]string
-	noTermDiscAppl = append(noTermDiscAppl, []string{"publno", "term extension", "disclaimer", "appl ID"})
+	noTermDiscAppl = append(noTermDiscAppl, []string{"Publ. No", "Term Ext. [days]", "Disclaimer/Date", "Appl ID"})
 	for key, value := range pbmap {
 		s := make([]string, 4)
 		fmt.Println("publno: " + key)
@@ -56,9 +56,8 @@ func ManageList(publnolist []string) string {
 			fmt.Println(s)
 		}
 	}
-	for _, slice := range noTermDiscAppl {
-		fmt.Println(slice)
-	}
-	//fmt.Println(noTermDiscAppl)
+	fmt.Println(noTermDiscAppl)
+	response := toExcel(noTermDiscAppl, file)
+	fmt.Println(response)
 	return filename
 }

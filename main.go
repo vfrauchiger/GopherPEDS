@@ -292,7 +292,7 @@ func main() {
 	butGoList := widget.NewButton("Go List Proc.", func() {
 		publicationList := LoadExcel(labListProc.Text)
 		fmt.Println(publicationList)
-		resulting_file := ManageList(publicationList)
+		resulting_file := ManageList(publicationList, labListProc.Text)
 		fmt.Println(resulting_file)
 	})
 
