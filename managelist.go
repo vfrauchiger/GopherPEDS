@@ -1,9 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
-func ManageList(publnolist []string, file string) string {
-	filename := "noname"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/widget"
+)
+
+func ManageList(w fyne.Window, success *widget.Label, publnolist []string, file string) string {
+	//filename := "noname"
 	pbmap := make(map[string]string)
 	for _, pblno := range publnolist {
 		fmt.Println("Publikation: " + pblno)
@@ -56,8 +61,8 @@ func ManageList(publnolist []string, file string) string {
 			fmt.Println(s)
 		}
 	}
-	fmt.Println(noTermDiscAppl)
+	//fmt.Println(noTermDiscAppl)
 	response := toExcel(noTermDiscAppl, file)
-	fmt.Println(response)
-	return filename
+	success.SetText(response)
+	return response
 }

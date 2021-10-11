@@ -150,7 +150,7 @@ func main() {
 		fyne.TextStyle{Italic: true},
 	)
 	// Button Application ID
-	butTermApplID := widget.NewButton("Go Appl Id", func() {
+	butTermApplID := widget.NewButton("Get Term Ext.", func() {
 		modifiedText := modifyText(inpApplId.Text)
 		modifiedText = removeChars(modifiedText)
 		termdays, discl, _, err := GetTermDisc("applId", modifiedText)
@@ -159,6 +159,9 @@ func main() {
 		}
 		if discl == "" {
 			discl = "No terminal disclaimer found!"
+		}
+		if termdays == "" {
+			termdays = "0"
 		}
 		hello.SetText(termdays + " days and " + discl)
 	})
@@ -189,7 +192,7 @@ func main() {
 	})
 
 	// Buttons Patents
-	butPatNumTerm := widget.NewButton("Go Pat Num", func() {
+	butPatNumTerm := widget.NewButton("Get Term Ext.", func() {
 		modifiedText := modifyText(inpPatentNum.Text)
 		modifiedText = removeChars(modifiedText)
 		hello.SetText(modifiedText)
@@ -200,6 +203,9 @@ func main() {
 		theApplId2 = theApplId
 		if discl == "" {
 			discl = "No terminal disclaimer found!"
+		}
+		if termdays == "" {
+			termdays = "0"
 		}
 		hello.SetText(termdays + " days and " + discl + " /ApplID " + theApplId)
 	})
@@ -230,7 +236,7 @@ func main() {
 	})
 
 	// Buttons Early Publication
-	butEarlPubNumTerm := widget.NewButton("Go Publ Num", func() {
+	butEarlPubNumTerm := widget.NewButton("Get Term Ext.", func() {
 		modifiedText := removeChars(inpEarlPubNum.Text)
 		modifiedText = strings.ToUpper(modifiedText)
 		modifiedText = treatEarlAppNumb(modifiedText)
@@ -292,8 +298,9 @@ func main() {
 	butGoList := widget.NewButton("Go List Proc.", func() {
 		publicationList := LoadExcel(labListProc.Text)
 		fmt.Println(publicationList)
-		resulting_file := ManageList(publicationList, labListProc.Text)
-		fmt.Println(resulting_file)
+		text := labListProc.Text
+		response := ManageList(w, labListProc, publicationList, text)
+		fmt.Println(response)
 	})
 
 	// CONTENT
