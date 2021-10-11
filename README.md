@@ -33,7 +33,24 @@ downloads, by checking the box each file is a download routine (parallel).
 There is a progress bar located at the bottom of the main window which show the progress of download operations (not used if only
 term is requested).
 
-To build the application:
+If you are confronted with the unpleasent task of getting the term extension for numerous patents, there is an additional function called ```File List Proc.```! This list processor takes an xlsx-File (Excel) and reads the first column of the first table. An Example of a possible table is given as follows:
+
+    publnos
+    US2021236729 AA
+    US2021038163 AA
+    US9974492 BA
+    US2019107969 AA
+    US10272200 BB
+
+It gets term extensions and checks for terminal disclaimers for all publication and saves the information to a new table called "TermExtList" in the file containing the publication list.
+
+1. Select the ```Get File```-Button to navigate to the correct file.
+2. The file name should now be shown in the row of the List processor.
+3. Select the ```Go List Proc.```-Button to start the list processor.
+4. If the terms/disclaimers are downloaded succesfully the word "Success" is shown instead of the file name.
+
+
+## To build the application
 
 _Prerequisites_:
 
