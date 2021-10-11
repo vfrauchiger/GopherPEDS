@@ -18,13 +18,13 @@ func toExcel(table [][]string, filename string) string {
 	f.NewSheet("TermExtList")
 
 	for num0, slice := range table {
-		fmt.Println(len(slice))
-		fmt.Printf("num0: %d \n", num0)
+		//fmt.Println(len(slice))
+		//fmt.Printf("num0: %d \n", num0)
 		for num1, el := range slice {
-			fmt.Println("Wert: " + el)
-			fmt.Printf("num1: %d \n", num1)
+			//fmt.Println("Wert: " + el)
+			//fmt.Printf("num1: %d \n", num1)
 			cell := col[num1] + strconv.Itoa(num0+1)
-			fmt.Println(cell)
+			//fmt.Println(cell)
 			f.SetCellValue("TermExtList", cell, el)
 
 		}
