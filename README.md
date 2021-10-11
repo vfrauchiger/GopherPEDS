@@ -1,4 +1,4 @@
-![VinzF](VinzF.png)
+![VinzF](./VinzF.png)
 
 # GopherPEDS
 
