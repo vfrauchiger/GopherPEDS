@@ -71,10 +71,10 @@ This app has no intention to have any commercial aspect! Use it or change it.
 
 *Credits to all GO developers! Credits to the Fyne Team!*
 
-![Gopher](gopherli.png)  ![Fyne](fyne.png)
+![Gopher](./gopherli.png)  ![Fyne](./fyne.png)
 
 ... and may your appropriate God bless the **Cheese Makers**!
 
 **While this software is released under MIT license, further licenses apply due the use of Go and Go Libraries! The Ypsomed Logo is exclusively owned by Ypsomed AG.**
 
-August 23, 2021, Vinz Frauchiger
+October 2021, Vinz Frauchiger
