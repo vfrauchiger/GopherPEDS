@@ -80,7 +80,9 @@ func chooseDirectory(w fyne.Window, h *widget.Label) {
 
 func chooseFile(w fyne.Window, fname *widget.Label) {
 	dialog.ShowFileOpen(func(file fyne.URIReadCloser, err error) {
-
+		if file == nil {
+			return
+		}
 		fileP := file.URI().Path()
 		if err != nil {
 			fmt.Println(err)
