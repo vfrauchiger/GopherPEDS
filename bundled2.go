@@ -6,7 +6,7 @@
 
 package main
 
-import "fyne.io/fyne"
+import "fyne.io/fyne/v2"
 
 var resourceYpsomedbigPng = &fyne.StaticResource{
 	StaticName: "Ypsomed_big.png",
