@@ -211,6 +211,7 @@ func main() {
 		if termdays == "" {
 			termdays = "0"
 		}
+		// convert term extension from days to months.
 		termMonths, err = strconv.ParseFloat(termdays, 64)
 		termMonths = termMonths / 365.25 * 12.0
 		if err != nil {
