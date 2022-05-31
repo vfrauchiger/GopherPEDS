@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -193,6 +194,7 @@ func main() {
 
 	// Buttons Patents
 	butPatNumTerm := widget.NewButton("Get Term Ext.", func() {
+		var termMonths float64
 		modifiedText := modifyText(inpPatentNum.Text)
 		modifiedText = removeChars(modifiedText)
 		hello.SetText(modifiedText)
@@ -207,7 +209,12 @@ func main() {
 		if termdays == "" {
 			termdays = "0"
 		}
-		hello.SetText(termdays + " days and " + discl + " /ApplID " + theApplId)
+		termMonths, err = strconv.ParseFloat(termdays, 64)
+		termMonths = termMonths / 365.25 * 12.0
+		if err != nil {
+			log.Fatal(err)
+		}
+		hello.SetText(termdays + " days (" + fmt.Sprintf("%.1f", termMonths) + "months) and " + discl + " / ApplID " + theApplId)
 	})
 	butPatNumWrap := widget.NewButton("Get FileWrapper for Patent", func() {
 		modifiedText := modifyText(inpPatentNum.Text)
