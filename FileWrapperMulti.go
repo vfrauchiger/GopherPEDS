@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -11,7 +12,6 @@ import (
 	"time"
 
 	"fyne.io/fyne/v2/widget"
-	"github.com/cavaliercoder/grab"
 )
 
 type Document struct {
@@ -34,7 +34,7 @@ func GetFileWrapperMulti(applId string, save_dir string, proBar *widget.Progress
 	} else {
 		speed = 3 //rather slow
 	}
-
+	fmt.Println(speed)
 	url_list_files := "https://ped.uspto.gov/api/queries/cms/public/"
 	comb_url_list := url_list_files + applId
 
@@ -88,67 +88,45 @@ func GetFileWrapperMulti(applId string, save_dir string, proBar *widget.Progress
 	/*
 		The following routine starts the batch download
 	*/
-	// 0 for the batch size means everythin in parallel!
-	respch, err := grab.GetBatch(speed, savePath, urls...) //respch is a channel!
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(1)
-	}
 
-	// start a ticker to update progress every 200ms
-	t := time.NewTicker(20 * time.Millisecond)
+	for i, url := range urls {
+		var reader io.Reader
 
-	// monitor downloads
-	completed := 0
-	inProgress := 0
+		client := &http.Client{}
 
-	responses := make([]*grab.Response, 0)
-	for completed < len(urls) {
-		select {
-		case resp := <-respch:
-			// a new response has been received and has started downloading
-			// (nil is received once, when the channel is closed by grab)
-			if resp != nil {
-				responses = append(responses, resp)
-			}
+		fmt.Println(url)
 
-		case <-t.C:
-			// clear lines
-			if inProgress > 0 {
-				fmt.Printf("%d\n", inProgress)
-
-			}
-
-			// update completed downloads
-			for i, resp := range responses {
-				if resp != nil && resp.IsComplete() {
-					// print final result
-					if resp.Err() != nil {
-						fmt.Fprintf(os.Stderr, "Error downloading %s\n", resp.Request.URL())
-					}
-
-					// mark completed
-					responses[i] = nil
-					completed++
-					// Set Value in Progress bar!
-					proBar.SetValue(float64(completed) / float64(len(urls)))
-				}
-			}
-
-			// update downloads in progress
-			inProgress = 0
-			for _, resp := range responses {
-				if resp != nil {
-					inProgress++
-					//fmt.Printf("Downloading %s ", resp.Filename)
-				}
-			}
-
+		req, err := http.NewRequest(
+			"GET",
+			url,
+			reader,
+		)
+		if err != nil {
+			fmt.Println(err)
 		}
+
+		req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0")
+
+		resp, err := client.Do(req)
+		if err != nil {
+			fmt.Println(err)
+		}
+		saveFilePath := savePath + "/" + documents[i].DocIdent
+
+		file, err := os.Create(saveFilePath)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		writtenBytes, err := io.Copy(file, resp.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(writtenBytes)
+		file.Close()
+
 	}
-	proBar.SetValue(1.0)
-	t.Stop()
-	fmt.Println(completed)
+
 	fmt.Printf("%d files successfully downloaded.\n", len(urls))
 
 	// renaming of all downloaded files
